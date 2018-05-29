@@ -224,7 +224,6 @@
                 "sha256:891c38b2a02f5bb1be3e4793866c8df49c7d19baabf9c1bad62547e0b4866aca",
                 "sha256:95511bae634d69bc7329ba55e646499a842bc4ec342ad54a8cdb65645a0aad3c"
             ],
-            "markers": "python_version >= '2.7'",
             "version": "==2.6.1"
         },
         "python-slugify": {
@@ -339,7 +338,8 @@
         },
         "zappa": {
             "editable": true,
-            "git": "https://github.com/jxltom/Zappa.git@9b500df"
+            "git": "https://github.com/jxltom/Zappa.git",
+            "ref": "9b500dff431308914384cc59b309c576b9414304"
         }
     },
     "develop": {
