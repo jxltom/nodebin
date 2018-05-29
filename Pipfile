@@ -1,0 +1,26 @@
+[[source]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = true
+name = "pypi"
+
+[requires]
+dokku_version = "0.11.3"
+nginx_verison = "1.12.1"
+python_version = "3.6"
+python_full_version = "3.6.5"
+
+[packages]
+flask = "==0.12.4"
+whitenoise = "*"
+raven = "*"
+gevent = "*"
+gunicorn = {version = "*", platform_system = "== 'Linux'"}
+zappa = {git = "https://github.com/jxltom/Zappa.git@9b500df", editable = true}
+
+[dev-packages]
+flask-debugtoolbar = "*"
+pytest = "*"
+coverage = "*"
+pytest-cov = "*"
+codacy-coverage = "*"
+codecov = "*"

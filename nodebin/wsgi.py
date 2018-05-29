@@ -1,0 +1,55 @@
+import os
+import sys
+
+from flask import Flask
+from raven.contrib.flask import Sentry
+from whitenoise import WhiteNoise
+import click
+
+import nodebin as project
+from nodebin.settings import config
+
+
+PROJECT_NAME = project.__name__
+ENV_CONFIG = os.getenv('{}_CONFIG'.format(PROJECT_NAME.upper()), 'dev')
+
+sentry = Sentry()
+
+
+def create_app():
+    # Initialize Flask instance and enable static file serving
+    app = Flask(__name__)
+    app.config.from_object(config[ENV_CONFIG]())  # instance is for __init__
+    app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
+
+    # Initialize Sentry for error tracking
+    sentry.init_app(app)
+
+    # Initialize DebugToolbar
+    if app.config['DEBUG']:
+        from flask_debugtoolbar import DebugToolbarExtension
+        toolbar = DebugToolbarExtension()
+        toolbar.init_app(app)
+
+    # Initialize app blueprint
+    from .blueprints.app import app as app_blueprint
+    app.register_blueprint(app_blueprint, url_prefix='')
+
+    # Initialize CLI command for pytest-cov
+    @app.cli.command(name='py.test')
+    @click.option('--cov')
+    @click.option('--cov-report')
+    def pytest_cov(cov, cov_report):
+        """Run pytest with pytest-cov plugin."""
+        import pytest
+
+        sys.argv = ['py.test']
+        sys.argv += ['--cov={}'.format(cov)] if cov else []
+        sys.argv += ['--cov-report={}'.format(cov_report)] if cov_report else []
+
+        sys.exit(pytest.main())
+
+    return app
+
+
+application = create_app()
