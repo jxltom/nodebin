@@ -20,6 +20,9 @@ class Config:
     SECRET_KEY = _getenv('SECRET_KEY')  # used for session
     TESTING = False
 
+    # Pretty print JSON in API
+    JSONIFY_PRETTYPRINT_REGULAR = True
+
     # Settings for Debug by Flask-DebugToolbar
     DEBUG_TB_PROFILER_ENABLED = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
