@@ -9,7 +9,7 @@ NODE_INDEX = 'https://npm.taobao.org/mirrors/node/index.json'
 NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
 
-def parse_node(platform, ext):
+def parse_node(platform, ext, latest, range):
     # Get node version and bin from CNPM
     rv = requests.get(NODE_INDEX, timeout=CNPM_TIMEOUT)
     if rv.status_code != 200:
@@ -28,8 +28,20 @@ def parse_node(platform, ext):
         if _['url']:
             results.append(_)
 
+    # Filter by range
+
+    # Filter by latest
+    if latest:
+        results = sorted(
+            results, key=lambda result: Version(result['number']), reverse=True
+        )[0]
+
     # Output diffent format
     if ext == '.txt':
+        # Still convert to list since latest only returns one
+        if type(results) is dict:
+            results = [results]
+
         results = '\n'.join(
             ['{} {}'.format(package['number'], package['url']) for package in results]
         )
