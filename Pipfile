@@ -20,6 +20,7 @@ flask-migrate = "*"
 flask-compress = "*"
 whitenoise = "*"
 raven = {extras = ["flask"], version = "*"}
+semantic-version = "*"
 gevent = "*"
 uwsgi = "*"
 gunicorn = {version = "*", platform_system = "== 'Linux'"}
