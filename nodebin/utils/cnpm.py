@@ -6,7 +6,7 @@ from nodebin.blueprints.api10.exceptions import ApiException
 
 CNPM_TIMEOUT = 10
 NODE_INDEX = 'https://npm.taobao.org/mirrors/node/index.json'
-NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.xz'
+NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
 
 def parse_node(platform, ext):
