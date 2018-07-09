@@ -1,3 +1,3 @@
-from . import nodejs
+from . import node
 from . import yarn
 from . import iojs
