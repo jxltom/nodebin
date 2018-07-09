@@ -1,4 +1,4 @@
-from flask import jsonify, render_template_string
+from flask import jsonify, Response
 
 from nodebin.blueprints import PLATFORM_LIST
 from nodebin.utils.cnpm import parse_node
@@ -19,7 +19,9 @@ def nodejs(platform, ext):
     if ext == '':
         return jsonify(rv)
     elif ext == '.txt':
-        return render_template_string(rv)
+        rv = Response(rv)
+        rv.headers['Content-Type'] = 'text/plain; charset=utf-8'
+        return rv
 
 
 @api10.route('/node/<platform>/latest', defaults={'ext': ''})
@@ -35,7 +37,7 @@ def nodejs_latest(platform, ext):
     if ext == '':
         return jsonify(rv)
     elif ext == '.txt':
-        return render_template_string(rv)
+        return rv
 
 
 def _check_parameter(platform, ext):
