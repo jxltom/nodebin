@@ -18,13 +18,22 @@ def parse_node(platform, ext):
         )
 
     # Process response
-    response, result = rv.json(), []
+    response, results = rv.json(), []
     for package in response:
         _ = dict()
         _['number'] = _process_version(package['version'])
         _['url'] = _process_url(package['files'], _['number'], platform)
-        result.append(_)
-    return result
+
+        # Only output if url is valid
+        if _['url']:
+            results.append(_)
+
+    # Output diffent format
+    if ext == '.txt':
+        results = '\n'.join(
+            ['{} {}'.format(package['number'], package['url']) for package in results]
+        )
+    return results
 
 
 def _process_version(version):
