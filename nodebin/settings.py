@@ -1,4 +1,5 @@
 import os
+from os.path import dirname, abspath
 
 import nodebin as project
 
@@ -16,12 +17,17 @@ def _getenv(env, default=None):
 
 class Config:
     # Settings for Flask
-    SECRET_KEY = b'I\x98\xefQ\xd1\xba\xc6\x99\xc1\xa0\x16L'  # used for session
+    SECRET_KEY = _getenv('SECRET_KEY')  # used for session
     TESTING = False
 
     # Settings for Debug by Flask-DebugToolbar
     DEBUG_TB_PROFILER_ENABLED = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+
+    # Settings for Database by Flask-SQLAlchemy
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = False
 
     def __init__(self):
         # Make sure PROJECT_CONFIG is set
@@ -39,13 +45,36 @@ class Config:
 class DevConfig(Config):
     DEBUG = True
 
+    # Settings for Database
+    # If DATABASE_DEV is not available, use DATABASE_URL for Heroku support
+    # If DATABASE_URL is not available neither, use local sqlite database
+    SQLALCHEMY_DATABASE_URI = _getenv(
+        'DATABASE_DEV',
+        default=_getenv(
+            'DATABASE_URL',
+            default='sqlite:///{}_dev.sqlite3'.format(dirname(abspath(project.__file__)))
+        )  # abspath is used for same behaviour of db migrate and run
+    )
+
 
 class TestConfig(Config):
     DEBUG = False
 
+    # Settings for Database
+    # If DATABASE_TEST is not available, use DATABASE_URL for Heroku support
+    SQLALCHEMY_DATABASE_URI = _getenv(
+        'DATABASE_TEST', default=_getenv('DATABASE_URL')
+    )
+
 
 class ProdConfig(Config):
     DEBUG = False
+
+    # Settings for Database
+    # If DATABASE_PROD is not available, use DATABASE_URL for Heroku support
+    SQLALCHEMY_DATABASE_URI = _getenv(
+        'DATABASE_PROD', default=_getenv('DATABASE_URL')
+    )
 
 
 config = {

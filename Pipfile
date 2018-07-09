@@ -1,24 +1,33 @@
 [[source]]
 url = "https://mirrors.aliyun.com/pypi/simple/"
 verify_ssl = true
-name = "pypi"
+name = "aliyun"
 
 [requires]
 dokku_version = "0.11.3"
+herokuish_version = "0.4.2"
 nginx_verison = "1.12.1"
 python_version = "3.6"
 python_full_version = "3.6.5"
 
 [packages]
-flask = "==0.12.4"
+flask = "*"
+flask-wtf = "*"
+flask-sqlalchemy = "*"
+"psycopg2-binary" = "*"
+mysqlclient = "*"
+flask-migrate = "*"
+flask-compress = "*"
 whitenoise = "*"
-raven = "*"
+raven = {extras = ["flask"], version = "*"}
 gevent = "*"
+uwsgi = "*"
 gunicorn = {version = "*", platform_system = "== 'Linux'"}
-zappa = {git = "https://github.com/jxltom/Zappa.git@9b500df", editable = true}
+zappa = {git = "https://github.com/jxltom/Zappa.git@e37659", editable = true}
 
 [dev-packages]
 flask-debugtoolbar = "*"
+faker = "*"
 pytest = "*"
 coverage = "*"
 pytest-cov = "*"
