@@ -9,11 +9,21 @@ from ..exceptions import PlatformNotFoundException
 @api10.route('/node/<platform>', defaults={'ext': ''})
 @api10.route('/node/<platform>.txt', defaults={'ext': '.txt'})
 def nodejs(platform, ext):
+    return _nodejs(platform=platform, ext=ext)
+
+
+@api10.route('/node/<platform>/latest', defaults={'ext': ''})
+@api10.route('/node/<platform>/latest.txt', defaults={'ext': '.txt'})
+def nodejs_latest(platform, ext):
+    return _nodejs(platform=platform, ext=ext, latest=True)
+
+
+def _nodejs(platform, ext, latest=False, range=None):
     # Check route validness
     _check_parameter(platform, ext)
 
     # Prepare response
-    rv = parse_node(platform, ext)
+    rv = parse_node(platform=platform, ext=ext, latest=latest, range=range)
 
     # Output response
     if ext == '':
@@ -21,22 +31,6 @@ def nodejs(platform, ext):
     elif ext == '.txt':
         rv = Response(rv)
         rv.headers['Content-Type'] = 'text/plain; charset=utf-8'
-        return rv
-
-
-@api10.route('/node/<platform>/latest', defaults={'ext': ''})
-@api10.route('/node/<platform>.txt/latest', defaults={'ext': '.txt'})
-def nodejs_latest(platform, ext):
-    # Check route validness
-    _check_parameter(platform, ext)
-
-    # Prepare response
-    rv = parse_node(platform, ext)
-
-    # Output response
-    if ext == '':
-        return jsonify(rv)
-    elif ext == '.txt':
         return rv
 
 
