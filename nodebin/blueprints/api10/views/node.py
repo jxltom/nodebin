@@ -1,6 +1,6 @@
 from flask import request, jsonify, Response
 
-from nodebin.utils.semver import check_range_validness
+from nodebin.utils.semver import check_nodesemver_validness
 from nodebin.utils.cnpm import cnpm2dict
 from ... import PLATFORM_LIST
 from .. import api10
@@ -41,7 +41,7 @@ def _check_parameter(platform, range_):
         raise PlatformNotFoundException()
 
     # Raise exception if range is not valid as a semantic version
-    if not check_range_validness(range_):
+    if not check_nodesemver_validness(range_):
         raise InvalidSemverException()
 
     return True
