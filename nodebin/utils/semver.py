@@ -2,10 +2,13 @@ from semantic_version import Version
 
 
 # TODO: It does not support beta version
-# TODO: ^8.1.1 is not supported
+# TODO: Tilde range version is not supported
 def check_nodesemver_validness(nodesemver):
     # Replace x to 0 if x exists
     nodesemver = nodesemver.replace('x', '0')
+
+    # Convert caret semver to normal one
+    nodesemver = _convert_caret_semver(nodesemver)
 
     # Calculate version parts number
     nodesemver = _padding_nodesemver(nodesemver)
@@ -20,12 +23,22 @@ def check_nodesemver_validness(nodesemver):
 
 
 def nodesemver2range(nodesemver):
-    """The nodesemver must be valid for using this method.
+    """The nodesemver must be valid for using this method. Refer to
+    https://docs.npmjs.com/misc/semver#caret-ranges-123-025-004
+
     8->[8.0.0, 9.0.0)
     8.x->[8.0.0, 9.0.0)
     8.x.1->[8.0.0, 9.0.0)
     8.1.1->[8.1.1, 8.1.2)
     8.1->[8.1.0, 8.2.0)
+    ^1.2.3->[1.2.3, 2.0.0)
+    ^0.2.3->[0.2.3, 0.3.0)
+    ^0.0.3->[0.0.3, 0.0.4)
+    ^1.2.x->[1.2.0, 2.0.0)
+    ^0.0.x->[0.0.0, 0.1.0)
+    ^0.0->[0.0.0, 0.1.0)
+    ^1.x->[1.0.0, 2.0.0)
+    ^0.x->[0.0.0, 1.0.0)
     """
     low = _remove_x_in_nodesemver(nodesemver)
     high = _increase_nodesemver(low)
@@ -42,6 +55,10 @@ def _remove_x_in_nodesemver(nodesemver):
         _.append(e)
 
     return '.'.join(_)
+
+
+def _convert_caret_semver(nodesemver):
+    return nodesemver
 
 
 def _increase_nodesemver(nodesemver):
