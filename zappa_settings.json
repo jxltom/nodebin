@@ -1,5 +1,5 @@
 {
-    "dev": {
+    "test": {
         "aws_region": "ap-southeast-1",
         "app_function": "nodebin.app.application",
         "profile_name": null,
