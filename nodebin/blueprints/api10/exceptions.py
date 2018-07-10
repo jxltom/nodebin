@@ -23,3 +23,10 @@ class InvalidSemverException(ApiException):
 
     def __init__(self, message='Invalid semver range'):
         super(InvalidSemverException, self).__init__(message=message)
+
+
+class NoResultException(ApiException):
+    status_code = 404
+
+    def __init__(self, message='No result'):
+        super(NoResultException, self).__init__(message=message)
