@@ -8,7 +8,8 @@ NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
 
 # TODO: Exception is handled in application
-def cnpm2dict(platform, txt, latest, range_):
+def cnpm2data(platform, nodesemver):
+    """The returned data is list of dict."""
     # Get node version and bin from CNPM
     rv = requests.get(NODE_INDEX, timeout=CNPM_TIMEOUT)
     if rv.status_code != 200:
@@ -17,7 +18,7 @@ def cnpm2dict(platform, txt, latest, range_):
         )
 
     # Process response
-    response, results = rv.json(), []
+    response, data = rv.json(), []
     for package in response:
         _ = dict()
         _['number'] = _process_version(package['version'])
@@ -27,28 +28,13 @@ def cnpm2dict(platform, txt, latest, range_):
 
         # Only output if url is valid
         if _['url']:
-            results.append(_)
+            data.append(_)
 
     # Filter by range
     #if range_:
     #    results = filter(lambda result: Version(result))
 
-    # Filter by latest
-    if latest:
-        results = sorted(
-            results, key=lambda result: Version(result['number']), reverse=True
-        )[0]
-
-    # Output diffent format
-    if txt:
-        # Convert to list for postprocess since latest only returns one
-        if type(results) is dict:
-            results = [results]
-
-        results = '\n'.join(
-            ['{} {}'.format(package['number'], package['url']) for package in results]
-        )
-    return results
+    return data
 
 
 def _process_version(version):
