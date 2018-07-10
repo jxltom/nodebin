@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d33df09b49c2fadafb0531164b2be59faaecc082568e8452602129e0cd1fd25f"
+            "sha256": "1e8415c4f45879122ae35614b4f08bffa5d933a8560cb566d0b355b423bdcf28"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -108,11 +108,6 @@
             ],
             "index": "aliyun",
             "version": "==1.0.2"
-        },
-        "flask-admin": {
-            "editable": true,
-            "git": "https://github.com/flask-admin/flask-admin.git",
-            "ref": "2c2c98e06e59f0988f34618d6cab7deb6533a61f"
         },
         "flask-compress": {
             "hashes": [
@@ -469,8 +464,7 @@
         },
         "zappa": {
             "editable": true,
-            "git": "https://github.com/jxltom/Zappa.git",
-            "ref": "e37659493fbf07c21bbdc4ebd756ca3ebe99fe74"
+            "git": "https://github.com/jxltom/Zappa.git@4b6eac"
         }
     },
     "develop": {

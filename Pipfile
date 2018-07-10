@@ -24,7 +24,7 @@ semantic-version = "*"
 gevent = "*"
 uwsgi = "*"
 gunicorn = {version = "*", platform_system = "== 'Linux'"}
-zappa = {git = "https://github.com/jxltom/Zappa.git@e37659", editable = true}
+zappa = {git = "https://github.com/jxltom/Zappa.git@4b6eac", editable = true}
 
 [dev-packages]
 flask-debugtoolbar = "*"
