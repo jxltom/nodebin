@@ -1,4 +1,14 @@
 {
+    "dev": {
+        "aws_region": "ap-southeast-1",
+        "app_function": "nodebin.app.application",
+        "profile_name": null,
+        "project_name": "nodebin",
+        "runtime": "python3.6",
+        "s3_bucket": "zappa-nodebin",
+        "certificate_arn": "arn:aws:acm:us-east-1:618545817064:certificate/4425f530-ad9d-4bc4-8e44-d233b8d7ed3f",
+        "route53_enabled": false
+    },
     "test": {
         "aws_region": "ap-southeast-1",
         "app_function": "nodebin.app.application",
@@ -7,6 +17,17 @@
         "runtime": "python3.6",
         "s3_bucket": "zappa-nodebin",
         "domain": "nodebin.sls.jxltom.com",
+        "certificate_arn": "arn:aws:acm:us-east-1:618545817064:certificate/4425f530-ad9d-4bc4-8e44-d233b8d7ed3f",
+        "route53_enabled": false
+    },
+    "prod": {
+        "aws_region": "ap-southeast-1",
+        "app_function": "nodebin.app.application",
+        "profile_name": null,
+        "project_name": "nodebin",
+        "runtime": "python3.6",
+        "s3_bucket": "zappa-nodebin",
+        "domain": "nodebin.jxltom.com",
         "certificate_arn": "arn:aws:acm:us-east-1:618545817064:certificate/4425f530-ad9d-4bc4-8e44-d233b8d7ed3f",
         "route53_enabled": false
     }
