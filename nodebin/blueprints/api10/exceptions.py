@@ -16,3 +16,10 @@ class PlatformNotFoundException(ApiException):
 
     def __init__(self, message='Invalid platform parameter'):
         super(PlatformNotFoundException, self).__init__(message=message)
+
+
+class InvalidSemverException(ApiException):
+    status_code = 404
+
+    def __init__(self, message='Invalid semver range'):
+        super(InvalidSemverException, self).__init__(message=message)
