@@ -1,8 +1,10 @@
 import requests
 from semantic_version import Version
 
+from .semver import nodesemver2range
 
-CNPM_TIMEOUT = 10
+
+EXTERNAL_SERVICE_TIMEOUT = 10
 NODE_INDEX = 'https://npm.taobao.org/mirrors/node/index.json'
 NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
@@ -11,7 +13,7 @@ NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 def cnpm2data(platform, nodesemver):
     """The returned data is list of dict."""
     # Get node version and bin from CNPM
-    rv = requests.get(NODE_INDEX, timeout=CNPM_TIMEOUT)
+    rv = requests.get(NODE_INDEX, timeout=EXTERNAL_SERVICE_TIMEOUT)
     if rv.status_code != 200:
         raise Exception(
             'CNPM service returns {} status code'.format(rv.status_code)
@@ -30,9 +32,10 @@ def cnpm2data(platform, nodesemver):
         if _['url']:
             data.append(_)
 
-    # Filter by range
-    #if range_:
-    #    results = filter(lambda result: Version(result))
+    # Filter by nodesemver range
+    if nodesemver:
+        low, high = nodesemver2range(nodesemver)
+        data = _filter_by_range(data, low, high)
 
     return data
 
@@ -63,3 +66,9 @@ def _process_url(files, version, platform):
     if target in files:
         return NODE_ADDR.format(version, platform)
     return ''
+
+
+def _filter_by_range(data, low, high):
+    data = filter(lambda d: Version(d['number']) < Version(high), data)
+    data = filter(lambda d: Version(d['number']) >= Version(low), data)
+    return list(data)
