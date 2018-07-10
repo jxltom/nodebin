@@ -5,7 +5,9 @@ from nodebin.utils.semver import check_nodesemver_validness
 from nodebin.utils.cnpm import cnpm2data
 from ... import PLATFORM_LIST
 from .. import api10
-from ..exceptions import PlatformNotFoundException, InvalidSemverException
+from ..exceptions import (
+    PlatformNotFoundException, InvalidSemverException, NoResultException
+)
 
 
 @api10.route('/node/<platform>', defaults={'txt': False})
@@ -29,6 +31,10 @@ def _nodejs_view(platform, txt, latest=False, nodesemver=None):
 
     # Prepare response
     data = cnpm2data(platform=platform, nodesemver=nodesemver)
+
+    # Raise exception if no result is found
+    if not data:
+        raise NoResultException()
 
     # Postprocess data
     data = _postprocess_data(data=data, latest=latest, txt=txt)
