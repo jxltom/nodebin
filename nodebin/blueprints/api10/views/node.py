@@ -18,7 +18,9 @@ def nodejs(platform, txt):
 @api10.route('/node/<platform>/latest.txt', defaults={'txt': True})
 def nodejs_latest(platform, txt):
     nodesemver = request.args.get('range', None)
-    return _nodejs_view(platform=platform, txt=txt, latest=True, nodesemver=nodesemver)
+    return _nodejs_view(
+        platform=platform, txt=txt, latest=True, nodesemver=nodesemver
+    )
 
 
 def _nodejs_view(platform, txt, latest=False, nodesemver=None):
