@@ -1,19 +1,18 @@
 import requests
 from semantic_version import Version
 
-from nodebin.blueprints.api10.exceptions import ApiException
-
 
 CNPM_TIMEOUT = 10
 NODE_INDEX = 'https://npm.taobao.org/mirrors/node/index.json'
 NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
 
-def parse_node(platform, ext, latest, range):
+# TODO: Exception is handled in application
+def cnpm2dict(platform, txt, latest, range_):
     # Get node version and bin from CNPM
     rv = requests.get(NODE_INDEX, timeout=CNPM_TIMEOUT)
     if rv.status_code != 200:
-        raise ApiException(
+        raise Exception(
             'CNPM service returns {} status code'.format(rv.status_code)
         )
 
@@ -22,13 +21,17 @@ def parse_node(platform, ext, latest, range):
     for package in response:
         _ = dict()
         _['number'] = _process_version(package['version'])
-        _['url'] = _process_url(package['files'], _['number'], platform)
+        _['url'] = _process_url(
+            files=package['files'], version=_['number'], platform=platform
+        )
 
         # Only output if url is valid
         if _['url']:
             results.append(_)
 
     # Filter by range
+    #if range_:
+    #    results = filter(lambda result: Version(result))
 
     # Filter by latest
     if latest:
@@ -37,8 +40,8 @@ def parse_node(platform, ext, latest, range):
         )[0]
 
     # Output diffent format
-    if ext == '.txt':
-        # Still convert to list since latest only returns one
+    if txt:
+        # Convert to list for postprocess since latest only returns one
         if type(results) is dict:
             results = [results]
 
@@ -53,7 +56,7 @@ def _process_version(version):
     if version.startswith('v'):
         version = version[1:]
 
-    # Check sementic verison validness
+    # Check semantic verison validness
     version = str(Version(version))
 
     return version
@@ -61,7 +64,7 @@ def _process_version(version):
 
 def _process_url(files, version, platform):
     """
-    :param files is a list
+    :param files should be list
     """
     # Convert platform to appropriate key
     if platform == 'linux-x64':

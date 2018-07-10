@@ -1,46 +1,47 @@
-from flask import jsonify, Response
+from flask import request, jsonify, Response
 
-from nodebin.blueprints import PLATFORM_LIST
-from nodebin.utils.cnpm import parse_node
+from nodebin.utils.semver import check_range_validness
+from nodebin.utils.cnpm import cnpm2dict
+from ... import PLATFORM_LIST
 from .. import api10
-from ..exceptions import PlatformNotFoundException
+from ..exceptions import PlatformNotFoundException, InvalidSemverException
 
 
-@api10.route('/node/<platform>', defaults={'ext': ''})
-@api10.route('/node/<platform>.txt', defaults={'ext': '.txt'})
-def nodejs(platform, ext):
-    return _nodejs(platform=platform, ext=ext)
+@api10.route('/node/<platform>', defaults={'txt': False})
+@api10.route('/node/<platform>.txt', defaults={'txt': True})
+def nodejs(platform, txt):
+    return _nodejs_view(platform=platform, txt=txt)
 
 
-@api10.route('/node/<platform>/latest', defaults={'ext': ''})
-@api10.route('/node/<platform>/latest.txt', defaults={'ext': '.txt'})
-def nodejs_latest(platform, ext):
-    return _nodejs(platform=platform, ext=ext, latest=True)
+@api10.route('/node/<platform>/latest', defaults={'txt': False})
+@api10.route('/node/<platform>/latest.txt', defaults={'txt': True})
+def nodejs_latest(platform, txt):
+    range_ = request.args.get('range', None)
+    return _nodejs_view(platform=platform, txt=txt, latest=True, range_=range_)
 
 
-def _nodejs(platform, ext, latest=False, range=None):
+def _nodejs_view(platform, txt, latest=False, range_=None):
     # Check route validness
-    _check_parameter(platform, ext)
+    _check_parameter(platform, range_)
 
     # Prepare response
-    rv = parse_node(platform=platform, ext=ext, latest=latest, range=range)
+    rv = cnpm2dict(platform=platform, txt=txt, latest=latest, range_=range_)
 
     # Output response
-    if ext == '':
-        return jsonify(rv)
-    elif ext == '.txt':
+    if txt:
         rv = Response(rv)
         rv.headers['Content-Type'] = 'text/plain; charset=utf-8'
         return rv
+    return jsonify(rv)
 
 
-def _check_parameter(platform, ext):
+def _check_parameter(platform, range_):
     # Raise exception if platform is not matched
     if platform not in PLATFORM_LIST:
         raise PlatformNotFoundException()
 
-    # Raise exception if extension is not emtpy or .txt
-    if ext != '' and ext != '.txt':
-        raise PlatformNotFoundException()
+    # Raise exception if range is not valid as a semantic version
+    if not check_range_validness(range_):
+        raise InvalidSemverException()
 
     return True
