@@ -28,7 +28,7 @@ workflows:
 jobs:
   unittest:
     docker:
-      - image: python:3.6
+      - image: python:3.6.5
     steps:
       - run:
           name: Install Dependencies
@@ -43,12 +43,12 @@ jobs:
 
   deploy-test-server:
     docker:
-      - image: python:3.6
+      - image: python:3.6.5
     steps:
       - checkout
 
   deploy-prod-server:
     docker:
-      - image: python:3.6
+      - image: python:3.6.5
     steps:
       - checkout
