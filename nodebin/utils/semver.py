@@ -7,10 +7,10 @@ def is_nodesemver_valid(nodesemver):
     # Replace x to 0 if x exists
     nodesemver = nodesemver.replace('x', '0')
 
-    # Convert caret semver to normal one
-    nodesemver = _convert_caret_semver(nodesemver)
+    # Remove ^ at the top
+    nodesemver = nodesemver.lstrip('^')
 
-    # Calculate version parts number
+    # Padding to 0.0.0 semver format
     nodesemver = _padding_nodesemver(nodesemver)
 
     # Check semantic version validness
@@ -41,7 +41,7 @@ def nodesemver2range(nodesemver):
     ^0.x->[0.0.0, 1.0.0)
     """
     # Process node semver to low range
-    nodesemver = _remove_x_in_nodesemver(nodesemver)
+    nodesemver = _convert_x_nodesemver(nodesemver)
     low, high = _convert_caret_semver(nodesemver)
 
     # Process node semver to high range
@@ -52,7 +52,7 @@ def nodesemver2range(nodesemver):
     return low, high
 
 
-def _remove_x_in_nodesemver(nodesemver):
+def _convert_x_nodesemver(nodesemver):
     """8.x->8, 8.x.1->8, 8.x.x->8, 8->8, 8.1.x->8.1, 8.1.1->8.1.1"""
     _ = []
     for e in nodesemver.split('.'):

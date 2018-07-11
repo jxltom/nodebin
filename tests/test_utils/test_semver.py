@@ -1,7 +1,7 @@
 from ..app_test_case import AppTestCase
 
 from nodebin.utils.semver import (
-    _remove_x_in_nodesemver, _convert_caret_semver,
+    _convert_x_nodesemver, _convert_caret_semver,
     _increase_nodesemver, _padding_nodesemver,
     nodesemver2range, is_nodesemver_valid
 )
@@ -9,19 +9,19 @@ from nodebin.utils.semver import (
 
 class TestSemver(AppTestCase):
 
-    def test_remove_x_in_nodesemver(self):
-        self.assertEqual(_remove_x_in_nodesemver('8.x'), '8')
-        self.assertEqual(_remove_x_in_nodesemver('8.x.1'), '8')
-        self.assertEqual(_remove_x_in_nodesemver('8.x.x'), '8')
-        self.assertEqual(_remove_x_in_nodesemver('8'), '8')
-        self.assertEqual(_remove_x_in_nodesemver('8.1.1'), '8.1.1')
-        self.assertEqual(_remove_x_in_nodesemver('8.1.x'), '8.1')
-        self.assertEqual(_remove_x_in_nodesemver('0.1.x'), '0.1')
-        self.assertEqual(_remove_x_in_nodesemver('0.x'), '0')
-        self.assertEqual(_remove_x_in_nodesemver('^1.2.x'), '^1.2')
-        self.assertEqual(_remove_x_in_nodesemver('^0.0.x'), '^0.0')
-        self.assertEqual(_remove_x_in_nodesemver('^1.x'), '^1')
-        self.assertEqual(_remove_x_in_nodesemver('^0.x'), '^0')
+    def test_convert_x_nodesemver(self):
+        self.assertEqual(_convert_x_nodesemver('8.x'), '8')
+        self.assertEqual(_convert_x_nodesemver('8.x.1'), '8')
+        self.assertEqual(_convert_x_nodesemver('8.x.x'), '8')
+        self.assertEqual(_convert_x_nodesemver('8'), '8')
+        self.assertEqual(_convert_x_nodesemver('8.1.1'), '8.1.1')
+        self.assertEqual(_convert_x_nodesemver('8.1.x'), '8.1')
+        self.assertEqual(_convert_x_nodesemver('0.1.x'), '0.1')
+        self.assertEqual(_convert_x_nodesemver('0.x'), '0')
+        self.assertEqual(_convert_x_nodesemver('^1.2.x'), '^1.2')
+        self.assertEqual(_convert_x_nodesemver('^0.0.x'), '^0.0')
+        self.assertEqual(_convert_x_nodesemver('^1.x'), '^1')
+        self.assertEqual(_convert_x_nodesemver('^0.x'), '^0')
 
     def test_convert_caret_semver(self):
         self.assertEqual(_convert_caret_semver('^1.2.3'), ('1.2.3', '1'))
