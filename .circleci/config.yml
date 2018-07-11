@@ -41,7 +41,7 @@ jobs:
           command: pipenv sync --dev
       - save_cache:
           key: pipenv-cache-{{ checksum "Pipfile.lock" }}
-          paths: $(pipenv --venv)
+          paths: /root/.local/share/virtualenvs
       - run:
           name: Run Unittest
           command: pipenv run python -m nodebin.manage py.test
