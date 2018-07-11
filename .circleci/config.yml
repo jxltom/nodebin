@@ -6,7 +6,7 @@ workflows:
     docker:
       - image: python:3.6
     jobs:
-      - unittest
+      - unittest:
           filters:
             branches:
               ignore: master
@@ -26,10 +26,14 @@ workflows:
               ignore: develop
 
 jobs:
-  unittest
+  unittest:
     steps:
       - checkout
 
-  push-to-aliyun:
+  deploy-test-server:
+    steps:
+      - checkout
+
+  deploy-prod-server:
     steps:
       - checkout
