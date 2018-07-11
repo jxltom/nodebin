@@ -53,11 +53,17 @@ jobs:
     steps:
       - run:
           name: Install Dependencies
-          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client
+          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client && pip install pipenv --upgrade
       - checkout
+      - restore_cache:
+          keys:
+            - pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
       - run:
           name: Prepare Environment
-          command: pip install pipenv --upgrade && pipenv install --dev --deploy
+          command:  pipenv sync
+      - save_cache:
+          key: pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+          paths: /root/.local/share/virtualenvs
       - run:
           name: Deploy to Test Server
           command: |
@@ -70,11 +76,17 @@ jobs:
     steps:
       - run:
           name: Install Dependencies
-          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client
+          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client && pip install pipenv --upgrade
       - checkout
+      - restore_cache:
+          keys:
+            - pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
       - run:
           name: Prepare Environment
-          command: pip install pipenv --upgrade && pipenv install --dev --deploy
+          command:  pipenv sync
+      - save_cache:
+          key: pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+          paths: /root/.local/share/virtualenvs
       - run:
           name: Deploy to Prod Server
           command: |
