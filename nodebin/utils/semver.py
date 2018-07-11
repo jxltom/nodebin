@@ -3,7 +3,7 @@ from semantic_version import Version
 
 # TODO: It does not support beta version
 # TODO: Tilde range version is not supported
-def check_nodesemver_validness(nodesemver):
+def is_nodesemver_valid(nodesemver):
     # Replace x to 0 if x exists
     nodesemver = nodesemver.replace('x', '0')
 

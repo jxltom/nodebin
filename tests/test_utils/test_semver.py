@@ -3,7 +3,7 @@ from ..app_test_case import AppTestCase
 from nodebin.utils.semver import (
     _remove_x_in_nodesemver, _convert_caret_semver,
     _increase_nodesemver, _padding_nodesemver,
-    nodesemver2range, check_nodesemver_validness
+    nodesemver2range, is_nodesemver_valid
 )
 
 
@@ -61,26 +61,26 @@ class TestSemver(AppTestCase):
         self.assertEqual(nodesemver2range('^1.x'), ('1.0.0', '2.0.0'))
         self.assertEqual(nodesemver2range('^0.x'), ('0.0.0', '1.0.0'))
 
-    def test_check_nodesemver_validness(self):
-        self.assertEqual(check_nodesemver_validness('8'), True)
-        self.assertEqual(check_nodesemver_validness('8.1'), True)
-        self.assertEqual(check_nodesemver_validness('8.1.1'), True)
-        self.assertEqual(check_nodesemver_validness('8.1.x'), True)
-        self.assertEqual(check_nodesemver_validness('8.x'), True)
-        self.assertEqual(check_nodesemver_validness('8.x.x'), True)
-        self.assertEqual(check_nodesemver_validness('8.x.1'), True)
-        self.assertEqual(check_nodesemver_validness('8.1.1.1'), False)
-        self.assertEqual(check_nodesemver_validness('8.xx'), False)
-        self.assertEqual(check_nodesemver_validness('8.x.x.x'), False)
-        self.assertEqual(check_nodesemver_validness('8.x.xx'), False)
+    def test_is_nodesemver_valid(self):
+        self.assertEqual(is_nodesemver_valid('8'), True)
+        self.assertEqual(is_nodesemver_valid('8.1'), True)
+        self.assertEqual(is_nodesemver_valid('8.1.1'), True)
+        self.assertEqual(is_nodesemver_valid('8.1.x'), True)
+        self.assertEqual(is_nodesemver_valid('8.x'), True)
+        self.assertEqual(is_nodesemver_valid('8.x.x'), True)
+        self.assertEqual(is_nodesemver_valid('8.x.1'), True)
+        self.assertEqual(is_nodesemver_valid('8.1.1.1'), False)
+        self.assertEqual(is_nodesemver_valid('8.xx'), False)
+        self.assertEqual(is_nodesemver_valid('8.x.x.x'), False)
+        self.assertEqual(is_nodesemver_valid('8.x.xx'), False)
 
-        self.assertEqual(check_nodesemver_validness('^1.2'), True)
-        self.assertEqual(check_nodesemver_validness('^1.2.2'), True)
-        self.assertEqual(check_nodesemver_validness('^1'), True)
-        self.assertEqual(check_nodesemver_validness('^0'), True)
-        self.assertEqual(check_nodesemver_validness('^1.x'), True)
-        self.assertEqual(check_nodesemver_validness('^1.x.1'), True)
-        self.assertEqual(check_nodesemver_validness('^1.x.x'), True)
-        self.assertEqual(check_nodesemver_validness('^1.xx'), False)
-        self.assertEqual(check_nodesemver_validness('^1.x.x.x'), False)
-        self.assertEqual(check_nodesemver_validness('^1.x.xx'), False)
+        self.assertEqual(is_nodesemver_valid('^1.2'), True)
+        self.assertEqual(is_nodesemver_valid('^1.2.2'), True)
+        self.assertEqual(is_nodesemver_valid('^1'), True)
+        self.assertEqual(is_nodesemver_valid('^0'), True)
+        self.assertEqual(is_nodesemver_valid('^1.x'), True)
+        self.assertEqual(is_nodesemver_valid('^1.x.1'), True)
+        self.assertEqual(is_nodesemver_valid('^1.x.x'), True)
+        self.assertEqual(is_nodesemver_valid('^1.xx'), False)
+        self.assertEqual(is_nodesemver_valid('^1.x.x.x'), False)
+        self.assertEqual(is_nodesemver_valid('^1.x.xx'), False)
