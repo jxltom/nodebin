@@ -45,7 +45,16 @@ jobs:
     docker:
       - image: python:3.6.5
     steps:
+      - run:
+          name: Install Dependencies
+          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client
       - checkout
+      - run:
+          name: Prepare Environment
+          command: pip install pipenv --upgrade && pipenv install --dev --deploy
+      - run:
+          name: Deploy to Test Server
+          command: pipenv shell && zappa deploy test || zappa update test
 
   deploy-prod-server:
     docker:
