@@ -3,8 +3,6 @@ version: 2
 workflows:
   version: 2
   default-workflow:
-    docker:
-      - image: python:3.6
     jobs:
       - unittest
       - deploy-test-server:
