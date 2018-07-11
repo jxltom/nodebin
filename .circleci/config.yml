@@ -81,8 +81,8 @@ jobs:
       - run:
           name: Bypass Deploy if Tag is not in Master
           command: |
-            # Create real master branch since Circle CI create master branch from tag by default
-            git branch -D master && git branch master
+            # Create master branch from remote since Circle CI create master branch from local tag by default
+            git branch -D master && git branch master origin/master
             # Bypass deploy if tag is not in master branch
             if ! [[ $(git branch --contains "$CIRCLE_TAG" master) =~ master ]]; then
               echo "$CIRCLE_TAG is not in master branch, deploy is bypassed"
