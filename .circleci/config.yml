@@ -54,7 +54,9 @@ jobs:
           command: pip install pipenv --upgrade && pipenv install --dev --deploy
       - run:
           name: Deploy to Test Server
-          command: pipenv shell && zappa deploy test || zappa update test
+          command: |
+            pipenv shell
+            zappa deploy test || zappa update test
 
   deploy-prod-server:
     docker:
