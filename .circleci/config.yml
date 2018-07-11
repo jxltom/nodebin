@@ -21,7 +21,9 @@ workflows:
             - unittest
           filters:
             branches:
-              ignore: develop
+              ignore: /.*/
+            tags:
+              only: /^v.*/
 
 jobs:
   unittest:
