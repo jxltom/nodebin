@@ -78,11 +78,13 @@ jobs:
           name: Install Dependencies
           command: apt-get update && apt-get install --no-install-recommends -y git openssh-client && pip install pipenv --upgrade
       - checkout
-      - |
-        if ! [[ $(git branch --contains "$CIRCLE_TAG" master) =~ master ]]; then
-          echo "$CIRCLE_TAG is not in master branch, deploy is bypassed"
-          exit 1
-        fi
+      - run:
+          name: Bypass Deploy if Tag is not in Master
+          command: |
+            if ! [[ $(git branch --contains "$CIRCLE_TAG" master) =~ master ]]; then
+              echo "$CIRCLE_TAG is not in master branch, deploy is bypassed"
+              exit 1
+            fi
       - restore_cache:
           keys:
             - pipenv-cache-deploy-{{ checksum "Pipfile.lock" }}
