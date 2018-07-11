@@ -36,12 +36,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+            - pipenv-cache-test-{{ checksum "Pipfile.lock" }}
       - run:
           name: Prepare Environment
           command: pipenv sync --dev
       - save_cache:
-          key: pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+          key: pipenv-cache-test-{{ checksum "Pipfile.lock" }}
           paths: /root/.local/share/virtualenvs
       - run:
           name: Run Unittest
@@ -57,12 +57,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+            - pipenv-cache-deploy-{{ checksum "Pipfile.lock" }}
       - run:
           name: Prepare Environment
           command:  pipenv sync
       - save_cache:
-          key: pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+          key: pipenv-cache-deploy-{{ checksum "Pipfile.lock" }}
           paths: /root/.local/share/virtualenvs
       - run:
           name: Deploy to Test Server
@@ -80,12 +80,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+            - pipenv-cache-deploy-{{ checksum "Pipfile.lock" }}
       - run:
           name: Prepare Environment
           command:  pipenv sync
       - save_cache:
-          key: pipenv-cache-v0-{{ checksum "Pipfile.lock" }}
+          key: pipenv-cache-deploy-{{ checksum "Pipfile.lock" }}
           paths: /root/.local/share/virtualenvs
       - run:
           name: Deploy to Prod Server
