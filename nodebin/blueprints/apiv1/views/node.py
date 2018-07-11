@@ -4,20 +4,20 @@ from semantic_version import Version
 from nodebin.utils.semver import check_nodesemver_validness
 from nodebin.utils.cnpm import cnpm2data
 from ... import PLATFORM_LIST
-from .. import api10
+from .. import apiv1
 from ..exceptions import (
     PlatformNotFoundException, InvalidSemverException, NoResultException
 )
 
 
-@api10.route('/node/<platform>', defaults={'txt': False})
-@api10.route('/node/<platform>.txt', defaults={'txt': True})
+@apiv1.route('/node/<platform>', defaults={'txt': False})
+@apiv1.route('/node/<platform>.txt', defaults={'txt': True})
 def nodejs(platform, txt):
     return _nodejs_view(platform=platform, txt=txt)
 
 
-@api10.route('/node/<platform>/latest', defaults={'txt': False})
-@api10.route('/node/<platform>/latest.txt', defaults={'txt': True})
+@apiv1.route('/node/<platform>/latest', defaults={'txt': False})
+@apiv1.route('/node/<platform>/latest.txt', defaults={'txt': True})
 def nodejs_latest(platform, txt):
     nodesemver = request.args.get('range', None)
     return _nodejs_view(

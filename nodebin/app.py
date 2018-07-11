@@ -65,8 +65,8 @@ def create_app():
     app.register_blueprint(app_blueprint, url_prefix='/')
 
     # Initialize api10 blueprint
-    from .blueprints.api10 import api10 as api10_blueprint
-    app.register_blueprint(api10_blueprint, url_prefix='/v1')
+    from .blueprints.apiv1 import apiv1 as apiv1_blueprint
+    app.register_blueprint(apiv1_blueprint, url_prefix='/v1')
 
     # Initialize CLI shell command
     @app.shell_context_processor
