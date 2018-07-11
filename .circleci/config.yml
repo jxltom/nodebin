@@ -32,11 +32,16 @@ jobs:
     steps:
       - run:
           name: Install Dependencies
-          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client
+          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client && pip install pipenv --upgrade
       - checkout
+      - restore_cache:
+          keys: {{ checksum "Pipefile.lock" }}
       - run:
           name: Prepare Environment
-          command: pip install pipenv --upgrade && pipenv install --dev --deploy
+          command: pipenv sync --dev
+      - save_cache:
+          key: {{ checksum "Pipefile.lock" }}
+          paths: $(pipenv --venv)
       - run:
           name: Run Unittest
           command: pipenv run python -m nodebin.manage py.test
