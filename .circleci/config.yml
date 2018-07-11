@@ -28,34 +28,8 @@ workflows:
 jobs:
   unittest
     steps:
-      - run:
-          name: Install Dependencies
-          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client
       - checkout
-      - run:
-          name: Push to Git
-          command: |
-            mkdir -p ~/.ssh && ssh-keyscan deploy.jxltom.com >> ~/.ssh/known_hosts
-            if [ -z ${CIRCLE_TAG+x} ]; then
-              git push dokku@deploy.jxltom.com:flask-boilerplate "$CIRCLE_BRANCH"
-            else
-              exit 0
-            fi
 
   push-to-aliyun:
-    docker:
-      - image: debian:stretch
     steps:
-      - run:
-          name: Install Dependencies
-          command: apt-get update && apt-get install --no-install-recommends -y git openssh-client
       - checkout
-      - run:
-          name: Push to Git
-          command: |
-            mkdir -p ~/.ssh && ssh-keyscan deploy.jxltom.com >> ~/.ssh/known_hosts
-            if [ -z ${CIRCLE_TAG+x} ]; then
-              git push dokku@deploy.jxltom.com:flask-boilerplate "$CIRCLE_BRANCH"
-            else
-              exit 0
-            fi
