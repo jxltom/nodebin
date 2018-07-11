@@ -35,12 +35,12 @@ jobs:
           command: apt-get update && apt-get install --no-install-recommends -y git openssh-client && pip install pipenv --upgrade
       - checkout
       - restore_cache:
-          keys: pipenv-cache-{{ checksum "Pipfile.lock" }}
+          keys: pipenvs-cache-{{ checksum "Pipfile.lock" }}
       - run:
           name: Prepare Environment
           command: pipenv sync --dev
       - save_cache:
-          key: pipenv-cache-{{ checksum "Pipfile.lock" }}
+          key: pipenvs-cache-{{ checksum "Pipfile.lock" }}
           paths: /root/.local/share/virtualenvs
       - run:
           name: Run Unittest
