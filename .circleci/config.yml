@@ -51,10 +51,12 @@ jobs:
       - checkout
       - run:
           name: Prepare Environment
-          command: pip install pipenv --upgrade && pipenv install --system --dev --deploy
+          command: pip install pipenv --upgrade && pipenv install --dev --deploy
       - run:
           name: Deploy to Test Server
-          command: zappa deploy test || zappa update test
+          command: |
+            source $(pipenv --venv)/bin/activate
+            zappa deploy test || zappa update test
 
   deploy-prod-server:
     docker:
