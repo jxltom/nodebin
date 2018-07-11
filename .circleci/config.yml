@@ -6,12 +6,7 @@ workflows:
     docker:
       - image: python:3.6
     jobs:
-      - unittest:
-          filters:
-            branches:
-              ignore: master
-            tags:
-              only: /^v.*/
+      - unittest
       - deploy-test-server:
           requires:
             - unittest
