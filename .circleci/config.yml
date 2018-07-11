@@ -33,10 +33,10 @@ jobs:
       - run:
           name: Install Dependencies
           command: apt-get update && apt-get install --no-install-recommends -y git openssh-client
+      - checkout
       - run:
           name: Prepare Environment
           command: pip install pipenv --upgrade && pipenv install --system --dev --deploy
-      - checkout
       - run:
           name: Run Unittest
           command: python -m nodebin.manage py.test
