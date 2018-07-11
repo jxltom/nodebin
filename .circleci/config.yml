@@ -2,7 +2,7 @@ version: 2
 
 workflows:
   version: 2
-  test-and-deploy:
+  default-workflow:
     docker:
       - image: python:3.6
     jobs:
