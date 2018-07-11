@@ -35,12 +35,12 @@ jobs:
           command: apt-get update && apt-get install --no-install-recommends -y git openssh-client && pip install pipenv --upgrade
       - checkout
       - restore_cache:
-          keys: {{ checksum "Pipefile.lock" }}
+          keys: pipenv-cache-{{ checksum "Pipefile.lock" }}
       - run:
           name: Prepare Environment
           command: pipenv sync --dev
       - save_cache:
-          key: {{ checksum "Pipefile.lock" }}
+          key: pipenv-cache-{{ checksum "Pipefile.lock" }}
           paths: $(pipenv --venv)
       - run:
           name: Run Unittest
