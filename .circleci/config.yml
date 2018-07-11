@@ -20,13 +20,19 @@ workflows:
 
 jobs:
   unittest:
+    docker:
+      - image: python:3.6
     steps:
       - checkout
 
   deploy-test-server:
+    docker:
+      - image: python:3.6
     steps:
       - checkout
 
   deploy-prod-server:
+    docker:
+      - image: python:3.6
     steps:
       - checkout
