@@ -23,7 +23,8 @@ def is_nodesemver_valid(nodesemver):
 
 
 def nodesemver2range(nodesemver):
-    """The nodesemver must be valid for using this method. Refer to
+    """The nodesemver must be valid for using this method. The returned range
+    should be used as [) format. Refer to
     https://docs.npmjs.com/misc/semver#caret-ranges-123-025-004
 
     8->[8.0.0, 9.0.0)
@@ -40,20 +41,23 @@ def nodesemver2range(nodesemver):
     ^1.x->[1.0.0, 2.0.0)
     ^0.x->[0.0.0, 1.0.0)
     """
-    # Process node semver to low range
+    # Process x in node semver
     nodesemver = _convert_x_nodesemver(nodesemver)
-    low, high = _convert_caret_semver(nodesemver)
 
-    # Process node semver to high range
-    high = _increase_nodesemver(high)
+    # Process node semver to low bound
+    low_bound, low_base = _convert_caret_nodesemver(nodesemver)
+    low_bound = _padding_nodesemver(low_bound)
 
-    # Conver to normal semver
-    low, high = _padding_nodesemver(low), _padding_nodesemver(high)
-    return low, high
+    # Process node semver to high bound
+    high_bound = _padding_nodesemver(_increase_nodesemver(low_base))
+
+    return low_bound, high_bound
 
 
 def _convert_x_nodesemver(nodesemver):
-    """8.x->8, 8.x.1->8, 8.x.x->8, 8->8, 8.1.x->8.1, 8.1.1->8.1.1"""
+    """The basesemver can still have ^ format.
+    8.x->8, 8.x.1->8, 8.x.x->8, 8->8, 8.1.x->8.1, 8.1.1->8.1.1, ^8.x->^8
+    """
     _ = []
     for e in nodesemver.split('.'):
         if e == 'x':
@@ -63,7 +67,7 @@ def _convert_x_nodesemver(nodesemver):
     return '.'.join(_)
 
 
-def _convert_caret_semver(nodesemver):
+def _convert_caret_nodesemver(nodesemver):
     """
      ^1.2.3->[1.2.3, 2.0.0)
     ^0.2.3->[0.2.3, 0.3.0)

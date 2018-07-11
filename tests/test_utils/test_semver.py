@@ -1,7 +1,7 @@
 from ..app_test_case import AppTestCase
 
 from nodebin.utils.semver import (
-    _convert_x_nodesemver, _convert_caret_semver,
+    _convert_x_nodesemver, _convert_caret_nodesemver,
     _increase_nodesemver, _padding_nodesemver,
     nodesemver2range, is_nodesemver_valid
 )
@@ -23,14 +23,14 @@ class TestSemver(AppTestCase):
         self.assertEqual(_convert_x_nodesemver('^1.x'), '^1')
         self.assertEqual(_convert_x_nodesemver('^0.x'), '^0')
 
-    def test_convert_caret_semver(self):
-        self.assertEqual(_convert_caret_semver('^1.2.3'), ('1.2.3', '1'))
-        self.assertEqual(_convert_caret_semver('^0.2.3'), ('0.2.3', '0.2'))
-        self.assertEqual(_convert_caret_semver('^0.0.3'), ('0.0.3', '0.0.3'))
-        self.assertEqual(_convert_caret_semver('^1.2'), ('1.2', '1'))
-        self.assertEqual(_convert_caret_semver('^0.0'), ('0.0', '0.0'))
-        self.assertEqual(_convert_caret_semver('^1'), ('1', '1'))
-        self.assertEqual(_convert_caret_semver('^0'), ('0', '0'))
+    def test_convert_caret_nodesemver(self):
+        self.assertEqual(_convert_caret_nodesemver('^1.2.3'), ('1.2.3', '1'))
+        self.assertEqual(_convert_caret_nodesemver('^0.2.3'), ('0.2.3', '0.2'))
+        self.assertEqual(_convert_caret_nodesemver('^0.0.3'), ('0.0.3', '0.0.3'))
+        self.assertEqual(_convert_caret_nodesemver('^1.2'), ('1.2', '1'))
+        self.assertEqual(_convert_caret_nodesemver('^0.0'), ('0.0', '0.0'))
+        self.assertEqual(_convert_caret_nodesemver('^1'), ('1', '1'))
+        self.assertEqual(_convert_caret_nodesemver('^0'), ('0', '0'))
 
     def test_increase_nodesemver(self):
         self.assertEqual(_increase_nodesemver('8.1'), '8.2')
