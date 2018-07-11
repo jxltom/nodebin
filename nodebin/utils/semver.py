@@ -40,8 +40,14 @@ def nodesemver2range(nodesemver):
     ^1.x->[1.0.0, 2.0.0)
     ^0.x->[0.0.0, 1.0.0)
     """
-    low = _remove_x_in_nodesemver(nodesemver)
-    high = _increase_nodesemver(low)
+    # Process node semver to low range
+    nodesemver = _remove_x_in_nodesemver(nodesemver)
+    low, high = _convert_caret_semver(nodesemver)
+
+    # Process node semver to high range
+    high = _increase_nodesemver(high)
+
+    # Conver to normal semver
     low, high = _padding_nodesemver(low), _padding_nodesemver(high)
     return low, high
 
@@ -58,7 +64,28 @@ def _remove_x_in_nodesemver(nodesemver):
 
 
 def _convert_caret_semver(nodesemver):
-    return nodesemver
+    """
+     ^1.2.3->[1.2.3, 2.0.0)
+    ^0.2.3->[0.2.3, 0.3.0)
+    ^0.0.3->[0.0.3, 0.0.4)
+    ^1.2->[1.2.0, 2.0.0)
+    ^0.0->[0.0.0, 0.1.0)
+    ^1->[1.0.0, 2.0.0)
+    ^0->[0.0.0, 1.0.0)
+
+    """
+    if not nodesemver.startswith('^'):
+        return nodesemver, nodesemver
+
+    nodesemver = nodesemver.lstrip('^')
+    for i, e in enumerate(nodesemver.split('.')):
+        if e == '0':
+            if (i + 1) == len(nodesemver.split('.')):
+                return nodesemver, '0.' * i + e
+        else:
+            _ = list(nodesemver.split('.')[0:i])
+            _.append(e)
+            return nodesemver, '.'.join(_)
 
 
 def _increase_nodesemver(nodesemver):
