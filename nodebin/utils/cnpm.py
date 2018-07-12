@@ -4,20 +4,36 @@ from semantic_version import Version
 from .semver import nodesemver2range
 
 
-EXTERNAL_SERVICE_TIMEOUT = 10
+EXTERNAL_SERVICE_TIMEOUT = 3
+EXTERNAL_SERVICE_MAXRETRY = 3
 NODE_INDEX = 'https://npm.taobao.org/mirrors/node/index.json'
 NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
 
-# TODO: Exception is handled in application
 def cnpm2data(platform, nodesemver):
     """The returned data is list of dict."""
     # Get node version and bin from CNPM
-    rv = requests.get(NODE_INDEX, timeout=EXTERNAL_SERVICE_TIMEOUT)
-    if rv.status_code != 200:
-        raise Exception(
-            'CNPM service returns {} status code'.format(rv.status_code)
-        )
+    retry, errormsg = 0, ''
+    while True:
+        # Get response
+        try:
+            rv = requests.get(NODE_INDEX, timeout=EXTERNAL_SERVICE_TIMEOUT)
+        except Exception as e:
+            # Setup errormsg if exception
+            errormsg = str(e)
+        else:
+            # Setup errormsg if status code is not 200
+            if rv.status_code != 200:
+                errormsg = 'CNPM returns {} status code'.format(rv.status_code)
+
+        # Break if response is OK
+        if not errormsg:
+            break
+
+        # Retry if response is not OK
+        retry += 1
+        if retry > EXTERNAL_SERVICE_MAXRETRY:
+            raise Exception('CNPM service error: {}'.format(errormsg))
 
     # Process response
     response, data = rv.json(), []
