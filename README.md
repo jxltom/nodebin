@@ -5,7 +5,7 @@ Aliyun mirror | 阿里云镜像 for nodebin.herokai.com
 ## Features
 
 - Same API with nodebin.herokai.com, which provides binaries for node, yarn and iojs.
-- Replaced binary addresses by aliyun mirror, which can be used in mainland China
+- Replaced binary addresses by aliyun mirror, which can be used in Mainland China
 
 ## Getting Started
 
