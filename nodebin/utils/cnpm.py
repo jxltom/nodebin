@@ -4,10 +4,10 @@ from semantic_version import Version
 from .semver import nodesemver2range
 
 
-EXTERNAL_SERVICE_TIMEOUT = 5
+EXTERNAL_SERVICE_TIMEOUT = 3
 EXTERNAL_SERVICE_MAXRETRY = 10
-NODE_INDEX = 'https://npm.taobao.org/mirrors/node/index.json'
-NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
+NODE_INDEX = 'http://npm.taobao.org/mirrors/node/index.json'
+NODE_ADDR = 'http://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
 
 def cnpm2data(platform, nodesemver):
@@ -17,9 +17,7 @@ def cnpm2data(platform, nodesemver):
     while True:
         # Get response
         try:
-            rv = requests.get(
-                NODE_INDEX, timeout=EXTERNAL_SERVICE_TIMEOUT, verify=False
-            )
+            rv = requests.get(NODE_INDEX, timeout=EXTERNAL_SERVICE_TIMEOUT)
         except Exception as e:
             # Setup errormsg if exception
             errormsg = str(e)
