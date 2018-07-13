@@ -17,7 +17,9 @@ def cnpm2data(platform, nodesemver):
     while True:
         # Get response
         try:
-            rv = requests.get(NODE_INDEX, timeout=EXTERNAL_SERVICE_TIMEOUT)
+            rv = requests.get(
+                NODE_INDEX, timeout=EXTERNAL_SERVICE_TIMEOUT, verify=False
+            )
         except Exception as e:
             # Setup errormsg if exception
             errormsg = str(e)
