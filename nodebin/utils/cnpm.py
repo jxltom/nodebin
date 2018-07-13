@@ -4,7 +4,7 @@ from semantic_version import Version
 from .semver import nodesemver2range
 
 
-EXTERNAL_SERVICE_TIMEOUT = 1.5
+EXTERNAL_SERVICE_TIMEOUT = 5
 EXTERNAL_SERVICE_MAXRETRY = 10
 NODE_INDEX = 'https://npm.taobao.org/mirrors/node/index.json'
 NODE_ADDR = 'https://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
