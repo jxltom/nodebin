@@ -70,5 +70,6 @@ def _postprocess_data(data, latest, txt):
         data = [data] if type(data) is dict else data
         # Convert to strings
         data = '\n'.join(['{} {}'.format(d['number'], d['url']) for d in data])
+        data += '\n'
 
     return data
