@@ -4,8 +4,9 @@ from semantic_version import Version
 from .semver import nodesemver2range
 
 
+# TODO: AWS Lambda default endpoint timeout is smaller than 30 seconds
 EXTERNAL_SERVICE_TIMEOUT = 3
-EXTERNAL_SERVICE_MAXRETRY = 10
+EXTERNAL_SERVICE_MAXRETRY = 5
 NODE_INDEX = 'http://npm.taobao.org/mirrors/node/index.json'
 NODE_ADDR = 'http://npm.taobao.org/mirrors/node/v{0}/node-v{0}-{1}.tar.gz'
 
