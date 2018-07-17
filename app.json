@@ -1,4 +1,17 @@
 {
+  "env": {
+    "NODEBIN_CONFIG": {
+      "value": "prod"
+    },
+    "SECRET_KEY": {
+      "generator": "secret"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/jxltom/heroku-buildpack-python"
+    }
+  ],
   "scripts": {
     "dokku": {
       "predeploy": ""
