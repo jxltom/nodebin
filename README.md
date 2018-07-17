@@ -9,7 +9,7 @@ Aliyun mirror | 阿里云镜像 for nodebin.herokai.com
 
 ## Getting Started
 
-- Use officially deployed service at https://nodebin.jxltom.com.
+- Officially deployed service at https://nodebin.jxltom.com.
 
 - Deploy to Heroku by [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/jxltom/nodebin)
 
