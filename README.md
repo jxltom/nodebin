@@ -9,11 +9,11 @@ Aliyun mirror | 阿里云镜像 for nodebin.herokai.com
 
 ## Getting Started
 
-- Officially deployed service at https://nodebin.jxltom.com.
+- Officially deployed at https://nodebin.jxltom.com.
 
-- Deploy to Heroku by [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/jxltom/nodebin)
+- Or deploy to Heroku by [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/jxltom/nodebin)
 
-- Deploy to AWS Lambda by setting up AWS credentials by environment variables, ```pipenv shell```, and ```zappa deploy dev|test|prod```
+- Or deploy to AWS Lambda by setting up AWS credentials by environment variables, ```pipenv shell```, and ```zappa deploy dev|test|prod```
 
 ## Known Issues
 
