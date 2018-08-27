@@ -6,3 +6,5 @@
 *.pyc
 
 *.zip
+
+\.pytest_cache/
