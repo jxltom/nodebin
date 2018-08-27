@@ -1,7 +1,6 @@
 import requests
 from semantic_version import Version
-
-from .semver import nodesemver2range
+from semver import satisfies
 
 
 # TODO: AWS Lambda default endpoint timeout is smaller than 30 seconds
@@ -51,8 +50,7 @@ def cnpm2data(platform, nodesemver):
 
     # Filter by nodesemver range
     if nodesemver:
-        low, high = nodesemver2range(nodesemver)
-        data = _filter_by_range(data, low, high)
+        data = _filter_by_semver(data, nodesemver)
 
     return data
 
@@ -85,7 +83,6 @@ def _process_url(files, version, platform):
     return ''
 
 
-def _filter_by_range(data, low, high):
-    data = filter(lambda d: Version(d['number']) < Version(high), data)
-    data = filter(lambda d: Version(d['number']) >= Version(low), data)
+def _filter_by_semver(data, nodesemver):
+    data = filter(lambda d: satisfies(d['number'], nodesemver), data)
     return list(data)
