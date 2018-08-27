@@ -25,6 +25,7 @@ gevent = "*"
 uwsgi = "*"
 gunicorn = {version = "*", platform_system = "== 'Linux'"}
 zappa = {git = "https://github.com/jxltom/Zappa.git@4b6eac", editable = true}
+node-semver = "*"
 
 [dev-packages]
 flask-debugtoolbar = "*"
